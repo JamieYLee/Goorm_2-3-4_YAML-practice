@@ -1,0 +1,19 @@
+---
+- name: copy file
+  hosts: "{{host_names}}"
+  gather_facts: False
+
+  tasks:
+    - name: copy file
+      copy:
+        src: "{{src_file}}"
+        dest: "{{dest_file}}"
+      register: result
+   
+    - name: confirm copy
+      shell: ls -lF "{{dest_file}}"
+      register: result_confirm
+
+    - name: debug
+      debug:
+        var: result

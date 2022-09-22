@@ -1,0 +1,29 @@
+# playbook 시작
+---
+# 타겟 부분 - play
+- name: ping test
+  hosts: managed
+  gather_facts: True
+
+  # 변수 부분
+  vars:
+    test: 10
+
+  # 태스크 부분 - task
+  tasks:
+    - name: ping
+      ping:
+    - name: current directory
+      shell:
+        cmd: pwd
+        
+# 타겟 부분 - play        
+- name: test
+  hosts: public
+  gather_facts: False
+
+  # 태스크 부분 - task
+  tasks:
+    - name: ping
+      ping:
+      

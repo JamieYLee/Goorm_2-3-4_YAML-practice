@@ -1,0 +1,10 @@
+---
+- name: confirm facts
+  hosts: private
+  gather_facts: true
+
+  tasks:
+    - name: ansible_facts
+      debug:
+        msg: "{{ ansible_facts[' user_id '] }}"
+#      var: ansible_facts

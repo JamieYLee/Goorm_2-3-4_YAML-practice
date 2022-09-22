@@ -1,0 +1,18 @@
+---
+- name: create directory & change directory
+  hosts: "{{host_names}}"
+  gather_facts: False
+
+  tasks:
+    - name: create directory
+      file:
+        path: "{{file_name}}"
+        state: directory
+      register: result_create
+
+    - name: change directory
+      shell: cd "{{file_name}}"
+
+    - name: debug
+      debug:
+        var: result_create

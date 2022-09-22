@@ -1,0 +1,58 @@
+---
+- name: variable test
+  hosts: managed
+  gather_facts: False
+
+  vars:
+    message: Ansible variable test
+
+  tasks:
+    - name: debug module test
+      debug:
+        msg:
+
+    - name: print variable
+      debug:
+        msg="message variable -> {{ message }}"
+
+- name: task variable test
+  hosts: private
+  gather_facts: False
+
+  vars:
+    file_path: /home/ec2-user/work
+
+  tasks:
+    - name: create directory
+      file:
+        path: "{{ file_path }}"
+        state: directory
+      register: result
+      ignore_errors: true    
+
+    - name: change directory
+      shell:
+        cmd: cd "{{ file_path }}"
+      register: foo_result
+      ignore_errors: true
+
+    - name: print result
+      debug:
+        msg: "foo_result -> {{ foo_result }} | result -> {{ result }}"
+
+- name: show return value
+  hosts: private
+  gather_facts: False
+
+  tasks:
+    - name: command module
+      command: id
+      register: userinfo
+
+    - name: print userinfo
+      debug:
+        var: userinfo
+
+    - name: print userinfo.stdout
+      debug:
+        var: userinfo.stdout
