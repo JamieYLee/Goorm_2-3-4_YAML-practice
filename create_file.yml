@@ -1,0 +1,29 @@
+---
+- name: create file
+  hosts: private
+  gather_facts: False
+
+  vars:
+    file_path: /home/ec2-user/work_touch
+    id: ansible
+
+  tasks:
+    - name: create directory
+      file:
+        path: "{{ file_path }}"  
+        state: directory
+
+    - name: confirm file
+      stat:
+        path: "{{ file_path }}/{{ id }}.txt"   
+      register: result  
+
+    - name: create file
+      file:
+        path: "{{ file_path }}/{{ item }}.txt"
+        state: touch 
+      loop:
+        - "{{ id }}1"
+        - "{{ id }}2"
+        - "{{ id }}3"   
+      when: not result.stat.exists  
