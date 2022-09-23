@@ -1,0 +1,31 @@
+---
+- name: Verify apache installation
+  hosts: public
+  become: yes
+  gather_facts: False
+
+  tasks:
+    - name: Ensure apache is at the latest version
+      ansible.builtin.yum:
+        name: httpd
+        state: latest
+
+    - name: Write the apache config file
+      ansible.builtin.template:
+        src: ./httpd.j2
+        dest: /etc/httpd.conf2
+      notify:
+      - Restart apache
+      register: result
+
+    - name: Ensure apache is running
+      ansible.builtin.service:
+        name: httpd
+        state: started
+      when: result is changed
+
+  handlers:
+    - name: Restart apache
+      service:
+        name: httpd
+        state: restarted
