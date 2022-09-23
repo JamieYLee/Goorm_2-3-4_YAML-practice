@@ -1,0 +1,23 @@
+---
+- import_playbook: common.yml
+
+- name: Install Web Server
+  hosts: private
+  become: yes
+  gather_facts: False
+ 
+  tasks:
+    - name: Ubuntu - Install Apache2  
+      apt:
+        upgrade: yes
+        update_cache: yes
+        name: apache2
+        state: present
+      ignore_errors: True
+      when: ansible_facts[ 'distribution' ] == "Ubuntu"
+
+    - name: Amazon Linux - Install httpd
+      yum:
+        name: httpd
+        state: present
+      when: ansible_facts[ 'distribution' ] == "Amazon"      

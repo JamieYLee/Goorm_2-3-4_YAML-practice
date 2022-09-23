@@ -1,0 +1,12 @@
+---
+- name: Install Web Server
+  hosts: private
+
+  tasks:
+    - name: Collect only selected facts
+      setup:
+        filter:
+          - 'ansible_distribution'
+    - debug:
+        var: ansible_facts          
+        
