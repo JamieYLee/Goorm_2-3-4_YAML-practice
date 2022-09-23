@@ -1,0 +1,30 @@
+---
+- name: loop
+  hosts: private
+  gather_facts: False
+
+  tasks:
+    - name: loop basic
+      debug:
+        msg: "{{ item }}"
+      loop:
+        - a
+        - b
+        - c
+
+    - name: loop basic 2
+      debug:
+        msg: "{{ item.user }} [ {{ item.group }} ]"
+      loop:
+        - user: user1
+          group: group1
+        - user: user2
+          group: group2
+
+    - name: non loop 1
+      debug:
+        msg: "user1 [ group1 ]"
+
+    - name: non loop 2
+      debug:
+        msg: "user2 [ group2 ]"          
